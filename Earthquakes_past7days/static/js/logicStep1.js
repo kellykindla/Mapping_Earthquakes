@@ -15,21 +15,21 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 // Create a base layer that holds both maps.
 let baseMaps = {
   "Streets": streets,
-  "Satellite Streets": satelliteStreets
+  "Satellite": satelliteStreets
 };
 
 // Create the map object with center, zoom level and default layer.
 let map = L.map('mapid', {
-  center: [43.7,-79.3], //center at toronto
-  zoom: 11,
+  center: [39.5, -98.5], //center of US
+  zoom: 3,
   layers: [streets]
 })
 
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
-// acessing airport GeoJSON URL from Github
-let torontoHoods = "https://raw.githubusercontent.com/kellykindla/Mapping_Earthquakes/main/torontoNeighborhoods.json"; 
+// acessing earthquake GeoJSON URL from USGS
+let torontoHoods = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"; 
 
 // Create a style for the lines.
 let myStyle = {
