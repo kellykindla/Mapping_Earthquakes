@@ -31,9 +31,36 @@ L.control.layers(baseMaps).addTo(map);
 // acessing earthquake GeoJSON URL from USGS
 let earthquakeData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"; 
 
+
 //grab GeoJSON data 
 d3.json(earthquakeData).then(function(data){
+  //return style data for each earthquake on the map-- pass mag of earthquake into a function to get radius
+  function styleInfo(feature) {
+    return {
+      opacity: 1,
+      fillOpacity: 1,
+      fillColor: "#ffae42",
+      color: "#000000",
+      radius: getRadius(feature.properties.mag),
+      stroke: true,
+      weight: 0.5
+    };
+  }
+  //determine the radius of the earthquake marker based on earthquakes magnitude (mag of 0 plotted w 1)
+  function getRadius(magnitude) {
+    if (magnitude === 0) {
+      return 1;
+    }
+    return magnitude * 4;
+  }
   console.log(data);
   //create a GeoJSON layer with retrieved data 
-  L.geoJson(data).addTo(map);
+  L.geoJson(data,{
+    //turn each feature into a circle Marker on the map 
+    pointToLayer: function(feature,latlng){
+      console.log(data);
+      return L.circleMarker(latlng);
+    },
+    style: styleInfo
+  }).addTo(map);
 });
